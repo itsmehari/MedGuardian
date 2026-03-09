@@ -27,7 +27,7 @@ def login_page() -> None:
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         st.markdown("## 🏥 MedGuardian")
-        st.markdown("### AI Assisted Health Risk Insights")
+        st.markdown("### AI-Assisted Early Disease Detection System")
         st.divider()
 
         with st.form("login_form", clear_on_submit=False):

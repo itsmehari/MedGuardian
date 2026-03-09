@@ -1,7 +1,7 @@
 """
 Page 3 — Risk Dashboard
 
-Displays computed health risk scores for a selected patient and health
+Displays early disease risk (from biomarkers) for a selected patient and health
 record. Covers diabetes risk, blood pressure classification, and
 cholesterol assessment. Scores are saved to the database.
 """

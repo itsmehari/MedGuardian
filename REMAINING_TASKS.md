@@ -111,7 +111,14 @@ Or use the [Marp for VS Code](https://marketplace.visualstudio.com/items?itemNam
 
 ---
 
-## 8. Final Checklist
+## 8. Update GitHub Repo Description
+
+On GitHub: **Repository → About → Edit** — set description to:
+**AI-Assisted Early Disease Detection System — Streamlit app for PDF lab report parsing and early disease risk from biomarkers**
+
+---
+
+## 9. Final Checklist
 
 - [ ] All placeholders filled
 - [ ] TOC added to report
@@ -120,3 +127,4 @@ Or use the [Marp for VS Code](https://marketplace.visualstudio.com/items?itemNam
 - [ ] Report exported to DOCX
 - [ ] Presentation exported to PPTX
 - [ ] Code pushed to GitHub (if deploying to Streamlit Cloud)
+- [ ] GitHub repo description updated (see §8)

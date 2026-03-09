@@ -51,7 +51,7 @@ if not get_all_users():
 # Home page content
 # ---------------------------------------------------------------------------
 st.title("🏥 MedGuardian")
-st.subheader("AI Assisted Health Risk Insights")
+st.subheader("AI-Assisted Early Disease Detection System")
 st.divider()
 
 col1, col2, col3, col4 = st.columns(4)

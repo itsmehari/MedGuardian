@@ -1,8 +1,8 @@
 # MedGuardian
 
-**AI Assisted Health Risk Insights** — a Streamlit web application that
+**AI-Assisted Early Disease Detection System** — a Streamlit web application that
 parses PDF lab reports, extracts biomarker values (with OCR fallback for
-scanned documents), and computes clinically-grounded health risk scores
+scanned documents), and detects early disease risk from biomarkers
 for diabetes, hypertension, and high cholesterol.
 
 ---

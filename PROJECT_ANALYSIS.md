@@ -107,7 +107,7 @@ MedGuardian/
 ## 6. PROJECT METADATA (Placeholders)
 
 - **Project name:** MedGuardian
-- **One-line description:** AI Assisted Health Risk Insights — parses PDF lab reports and computes diabetes, hypertension, and cholesterol risk scores
+- **One-line description:** AI-Assisted Early Disease Detection System — parses PDF lab reports and detects early disease risk from biomarkers (diabetes, hypertension, cholesterol)
 - **College name:** [Your College Full Name]
 - **College location:** [City, PIN]
 - **Degree:** B.Sc. Computer Science

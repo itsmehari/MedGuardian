@@ -16,7 +16,7 @@ style: |
 ---
 
 # MedGuardian
-## AI Assisted Health Risk Insights
+## AI-Assisted Early Disease Detection System
 
 **B.Sc. Computer Science — Final Year Project**
 
@@ -32,9 +32,11 @@ style: |
 4. Key Modules
 5. Technology Stack
 6. Risk Score Formulae
-7. Demo & Results
-8. Limitations & Future Work
-9. Conclusion
+7. Datasets & Sample Reports
+8. Demo & Results
+9. Deployment (Git & Streamlit Cloud)
+10. Limitations & Future Work
+11. Conclusion
 
 ---
 
@@ -59,7 +61,7 @@ style: |
 
 # 3. Objectives
 
-- Build a Streamlit web app for health risk insights
+- Build a Streamlit web app for early disease detection
 - Parse PDFs with pdfplumber + Tesseract OCR fallback
 - Use regex to extract glucose, HbA1c, BMI, BP, cholesterol
 - Apply clinical formulae (ADA, JNC 8, ACC/AHA)
@@ -118,43 +120,67 @@ style: |
 
 ---
 
-# 8. Demo & Results
+# 8. Datasets & Sample Reports
 
-- Patient profile creation
-- PDF upload and biomarker extraction
+- **sample_patients.csv** — 5 demo patients
+- **sample_health_records.csv** — 8 health records
+- **15 PDF lab reports** from **5 laboratories** (Care Diagnostics, Apollo, Thyro Lab, Metropolitan, Sunrise)
+- **Age groups:** 24–70 yrs (young adult to senior)
+- **Risk profiles:** Low, Moderate, High
+- Data loader for empty DB demo
+
+---
+
+# 9. Demo & Results
+
+- Patient profile creation and CRUD
+- PDF upload → text extraction (pdfplumber / OCR)
+- Biomarker parsing and user verification
 - Risk dashboard with gauge charts
-- History trends (Plotly)
+- History: risk trends, biomarker trends, uploaded reports
 - Sample data loader for empty DB
 
 ---
 
-# 9. Limitations
+# 10. Deployment (Git & Streamlit Cloud)
 
-- Tesseract must be installed separately
-- Single admin user
-- Regex may not cover all lab formats
-- No EHR/API integration
+**Git upload:**
+`git init` → `git add .` → `git commit` → `git remote add origin` → `git push -u origin main`
+
+**Streamlit Cloud:**
+Push to GitHub → share.streamlit.io → Create app → Select repo, main file path (`MedGuardian_Project/app.py`) → Add secrets (`ADMIN_PASSWORD_HASH`) → Deploy. App runs at `https://<name>.streamlit.app`
 
 ---
 
-# 10. Future Work
+# 11. Limitations
 
-- More biomarkers (triglycerides, LDL, HDL)
-- Multi-user roles
-- Export to PDF
-- Cloud deployment (Streamlit Cloud)
+- Tesseract must be installed separately; not available on Streamlit Cloud
+- Single admin user; no multi-tenancy
+- Regex may not cover all lab report formats
+- No EHR/LIS integration
+- Ephemeral DB on Streamlit Cloud (data resets on redeploy)
+
+---
+
+# 12. Future Work
+
+- More biomarkers (triglycerides, LDL, HDL, creatinine)
+- Multi-user roles (admin, clinician, patient)
+- Export reports to PDF
+- Integration with lab information systems
 - Mobile responsiveness
 
 ---
 
-# 11. Conclusion
+# 13. Conclusion
 
-MedGuardian delivers an **AI-assisted health risk insight** system that:
+MedGuardian delivers an **AI-assisted early disease detection** system that:
 - Parses PDF lab reports (text + OCR)
 - Extracts biomarkers automatically
-- Computes clinically-grounded risk scores
+- Detects early disease risk (diabetes, hypertension, cholesterol)
 - Stores data locally in SQLite
-- Provides visualisation for trends
+- Provides gauge charts and trend visualisation
+- Supports 15 sample reports from 5 laboratories
 
 **Thank You**
 
