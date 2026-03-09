@@ -679,17 +679,17 @@ Invoked from the Home page when the database is empty, or run via `python -m uti
 
 ## 8.1 Application Screenshots
 
-*[Insert screenshots of the following: ]*
+Screenshots are in the `screenshots/` folder. Insert as needed:
 
-1. **Login Page:** Username and password fields, MedGuardian branding
-2. **Home Page:** Four-step workflow cards, "Load sample demo data" expander, biomarker summary table
-3. **Patient Profile – New Patient:** Form with name, age, gender, email fields
-4. **Patient Profile – Manage Existing:** Patient selector, metrics display, edit form, delete section
-5. **Upload Report:** Patient selector, file uploader, parsed biomarker inputs with verification, Save button
-6. **Risk Dashboard:** Patient and record selectors, biomarker summary with status, family history radio, Compute button, gauge charts for Diabetes/Hypertension/Cholesterol
-7. **History – Risk Trends:** Line chart with 20% and 50% reference lines, multiselect for conditions
-8. **History – Biomarker Trends:** Biomarker dropdown, line chart over test dates
-9. **History – Uploaded Reports:** Table with Report ID, Filename, Status, Linked Record ID
+1. **Login Page:** `screenshots/01_Login_Page.png` — Username and password fields, MedGuardian branding
+2. **Home Page:** `screenshots/02_Home_Page.png` — Four-step workflow cards, "Load sample demo data" expander
+3. **Patient Profile:** `screenshots/03_Patient_Profile.png` — New Patient form or Manage Existing view
+4. **Upload Report:** `screenshots/04_Upload_Report.png` — File uploader, parsed biomarkers, Save button
+5. **Risk Dashboard:** `screenshots/05_Risk_Dashboard.png` — Gauge charts for Diabetes/BP/Cholesterol
+6. **History – Risk Trends:** `screenshots/06_History_Risk_Trends.png` — Line chart with reference lines
+7. **History – Biomarker Trends:** `screenshots/07_History_Biomarkers.png` — Biomarker dropdown, line chart
+
+*To capture: Login at https://medguardian-cq4hnprbbuxvdpwg9pw3vv.streamlit.app/ (admin/admin123), then screenshot each page. See `screenshots/README.md`.*
 
 ## 8.2 Functional Test Results
 

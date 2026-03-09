@@ -133,6 +133,8 @@ style: |
 
 # 9. Demo & Results
 
+![Login](screenshots/01_Login_Page.png)
+
 - Patient profile creation and CRUD
 - PDF upload → text extraction (pdfplumber / OCR)
 - Biomarker parsing and user verification
