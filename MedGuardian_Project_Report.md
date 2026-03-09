@@ -115,9 +115,9 @@ I extend my thanks to my family and friends for their support and patience durin
 
 # Abstract
 
-**MedGuardian** is an AI-assisted early disease detection system designed to bridge the gap between raw laboratory data and actionable health insights. The system parses PDF lab reports—both text-based and scanned—extracts biomarker values using a combination of direct text extraction and optical character recognition (OCR), and computes clinically grounded early disease risk scores for diabetes, hypertension, and high cholesterol. Built as a Streamlit web application with a local SQLite database, MedGuardian ensures that sensitive health data remains on the user's machine, addressing privacy concerns in healthcare informatics.
+**MedGuardian** is an AI-assisted early disease detection system designed to bridge the gap between raw laboratory data and actionable health insights. The system parses PDF lab reports (text-based; scanned PDFs are not supported on Streamlit Cloud), extracts biomarker values, and computes clinically grounded early disease risk scores for diabetes, hypertension, and high cholesterol. Built as a Streamlit web application with a SQLite database, MedGuardian is deployed on Streamlit Community Cloud; health data is stored in SQLite on the deployment server and is not sent to third-party services.
 
-Key features include automatic extraction of glucose, HbA1c, BMI, blood pressure, and total cholesterol; a weighted diabetes risk formula aligned with ADA Standards of Care; blood pressure classification following JNC 8 and ACC-AHA 2017 guidelines; cholesterol risk assessment per ACC/AHA 2018; and interactive historical trend visualisation using Plotly. The project demonstrates the practical integration of document processing, clinical reference ranges, and risk modelling in a user-friendly, locally deployable healthcare analytics tool suitable for clinics, researchers, and health-conscious individuals.
+Key features include automatic extraction of glucose, HbA1c, BMI, blood pressure, and total cholesterol; a weighted diabetes risk formula aligned with ADA Standards of Care; blood pressure classification following JNC 8 and ACC-AHA 2017 guidelines; cholesterol risk assessment per ACC/AHA 2018; and interactive historical trend visualisation using Plotly. The project demonstrates the practical integration of document processing, clinical reference ranges, and risk modelling in a user-friendly, cloud-deployed healthcare analytics tool suitable for clinics, researchers, and health-conscious individuals.
 
 **Keywords:** Early disease detection, health risk assessment, PDF parsing, OCR, diabetes risk, hypertension, cholesterol, Streamlit, Python, SQLite, biomarker extraction, clinical decision support
 
@@ -172,7 +172,7 @@ Healthcare providers, clinics, and health-conscious individuals face several cha
 
 3. **Scattered Data:** Lab reports from multiple laboratories and time periods are often stored as separate files. Aggregating and comparing results over time to identify trends is difficult without a structured database.
 
-4. **Privacy Concerns:** Sending sensitive health data to cloud-based services raises privacy and regulatory concerns. Many users and clinics prefer solutions that process data locally.
+4. **Privacy Concerns:** Sending sensitive health data to third-party analytics raises privacy and regulatory concerns. MedGuardian avoids this by storing and processing data only on the deployment server (Streamlit Cloud), with no transmission to external analytics services.
 
 5. **Format Heterogeneity:** Lab reports vary in layout, terminology, and units across different laboratories. A flexible extraction mechanism that can handle common variations is needed.
 
@@ -186,7 +186,7 @@ The primary objectives of the MedGuardian project are:
 
 3. **Clinical Risk Computation:** Implement clinically validated risk scoring for diabetes (weighted formula), blood pressure classification (JNC 8 / ACC-AHA 2017), and cholesterol assessment (ACC/AHA 2018), with results expressed on a consistent 0–100% scale.
 
-4. **Data Management:** Store all patient profiles, health records, and risk scores in a local SQLite database with proper referential integrity, ensuring no data is transmitted to external servers.
+4. **Data Management:** Store all patient profiles, health records, and risk scores in a SQLite database with proper referential integrity; data remains on the deployment server and is not transmitted to external servers.
 
 5. **Visualisation and Trends:** Provide an interactive dashboard with gauge charts for risk levels and line charts for historical biomarker and risk score trends using Plotly.
 
@@ -214,7 +214,7 @@ The scope of the MedGuardian project is defined as follows:
 
 ## 1.5 Significance
 
-MedGuardian addresses a practical gap in healthcare informatics: the ability to convert unstructured lab report data into structured, actionable risk information without relying on expensive enterprise systems or compromising data privacy. By combining document processing, clinical guidelines, and data visualisation in a single, locally deployable tool, the project demonstrates the viability of lightweight, privacy-preserving health analytics for small clinics and individual use.
+MedGuardian addresses a practical gap in healthcare informatics: the ability to convert unstructured lab report data into structured, actionable risk information without relying on expensive enterprise systems or compromising data privacy. By combining document processing, clinical guidelines, and data visualisation in a single, cloud-deployed tool, the project demonstrates the viability of lightweight, privacy-preserving health analytics for small clinics and individual use.
 
 ## 1.6 Organisation of the Report
 
@@ -228,7 +228,7 @@ The report is organised into twelve chapters. **Chapter 2** presents a system st
 
 ### 2.1.1 Enterprise Electronic Medical Record (EMR) Systems
 
-Large hospital and clinic EMR systems (e.g., Epic, Cerner, Allscripts) include lab result management and sometimes risk calculators. These systems are expensive, require significant infrastructure, and are designed for institutional use. They do not address the need of small clinics or individuals for a lightweight, locally deployable solution that processes PDF reports from external laboratories.
+Large hospital and clinic EMR systems (e.g., Epic, Cerner, Allscripts) include lab result management and sometimes risk calculators. These systems are expensive, require significant infrastructure, and are designed for institutional use. They do not address the need of small clinics or individuals for a lightweight, cloud-deployed solution that processes PDF reports from external laboratories.
 
 ### 2.1.2 Standalone Risk Calculators
 
@@ -246,11 +246,11 @@ Academic and open-source projects have explored medical document understanding, 
 
 ### 2.2.1 Streamlit
 
-Streamlit is an open-source Python framework for building data applications rapidly. It provides a reactive, declarative API for creating web interfaces without writing HTML, CSS, or JavaScript. Widgets such as file uploaders, forms, and charts integrate seamlessly with Python data structures. Streamlit is well-suited for internal tools, dashboards, and proof-of-concept applications. Deployment options include local hosting and Streamlit Community Cloud.
+Streamlit is an open-source Python framework for building data applications rapidly. It provides a reactive, declarative API for creating web interfaces without writing HTML, CSS, or JavaScript. Widgets such as file uploaders, forms, and charts integrate seamlessly with Python data structures. Streamlit is well-suited for internal tools, dashboards, and proof-of-concept applications. MedGuardian is deployed on Streamlit Community Cloud.
 
 ### 2.2.2 SQLite
 
-SQLite is a serverless, file-based relational database engine. It requires no separate server process; the database is stored in a single file. SQLite supports standard SQL, ACID transactions, and foreign keys. It is ideal for desktop and small-scale web applications where simplicity and portability are priorities. For MedGuardian, SQLite ensures that all data remains local and can be backed up by copying the database file.
+SQLite is a serverless, file-based relational database engine. It requires no separate server process; the database is stored in a single file. SQLite supports standard SQL, ACID transactions, and foreign keys. It is ideal for small-scale web applications where simplicity and portability are priorities. For MedGuardian on Streamlit Cloud, SQLite stores all data on the deployment container; data is not transmitted to external servers.
 
 ### 2.2.3 PDF Processing Libraries
 
@@ -298,7 +298,7 @@ Total cholesterol is classified as Desirable (<200 mg/dL), Borderline High (200�
 | FR10 | System shall classify blood pressure as Low, Moderate, or High per JNC 8 / ACC-AHA | High |
 | FR11 | System shall assess cholesterol risk as Low, Moderate, or High per ACC/AHA 2018 | High |
 | FR12 | System shall display gauge charts for risk levels and line charts for historical trends | High |
-| FR13 | All patient, health record, and risk data shall be stored in SQLite locally | High |
+| FR13 | All patient, health record, and risk data shall be stored in SQLite (on deployment server) | High |
 | FR14 | System shall offer sample data loader when database is empty for demo purposes | Medium |
 
 ## 3.2 Non-Functional Requirements
@@ -308,7 +308,7 @@ Total cholesterol is classified as Desirable (<200 mg/dL), Borderline High (200�
 | NFR1 | Response time for PDF parsing shall be less than 30 seconds for typical reports (≤10 pages) | Ensures acceptable user experience |
 | NFR2 | Passwords shall be stored as SHA-256 hashes; plain text shall never be persisted | Basic security measure |
 | NFR3 | All database queries shall use parameterised statements to prevent SQL injection | OWASP recommendation |
-| NFR4 | No health data shall be transmitted to external servers; all processing is local | Privacy requirement |
+| NFR4 | No health data shall be transmitted to external servers; processing and storage on deployment server only | Privacy requirement |
 | NFR5 | Application shall run on Windows, macOS, and Linux | Cross-platform compatibility |
 | NFR6 | User interface shall be intuitive with clear labels and minimal training required | Usability |
 
@@ -598,25 +598,15 @@ MedGuardian_Project/
     └── config.toml
 ```
 
-## 6.3 Deployment
+## 6.3 Deployment (Streamlit Cloud)
 
-### 6.3.1 Local Deployment
-
-1. Install Python 3.10+ and Tesseract OCR (platform-specific).
-2. Create virtual environment: `python -m venv venv`
-3. Activate: `venv\Scripts\activate` (Windows) or `source venv/bin/activate` (macOS/Linux)
-4. Install dependencies: `pip install -r requirements.txt`
-5. Copy `.env.example` to `.env`, set `ADMIN_PASSWORD_HASH`
-6. Run: `streamlit run app.py`
-7. Access at http://localhost:8501
-
-### 6.3.2 Streamlit Cloud
+MedGuardian is intended to run on Streamlit Community Cloud only; local hosting is not supported.
 
 1. Push code to GitHub.
-2. At share.streamlit.io, create new app.
-3. Select repository, branch, and main file path (`MedGuardian_Project/app.py` if app is in subfolder).
-4. Add secrets: `ADMIN_USERNAME`, `ADMIN_PASSWORD_HASH`
-5. Deploy. Note: Tesseract may not be available on Streamlit Cloud; text-based PDFs will work.
+2. At [share.streamlit.io](https://share.streamlit.io), sign in with GitHub and create a new app.
+3. Select repository, branch, and main file path (`MedGuardian_Project/app.py` if the app is in a subfolder).
+4. In Advanced settings → Secrets, add `ADMIN_USERNAME` and `ADMIN_PASSWORD_HASH`.
+5. Deploy. The app will be available at `https://<your-app-name>.streamlit.app`. Note: Tesseract OCR is not available on Streamlit Cloud; only text-based PDFs are supported.
 
 ---
 
@@ -718,8 +708,7 @@ Screenshots are in the `screenshots/` folder. Insert as needed:
 
 ## 8.4 Deployment Verification
 
-- **Local:** Application runs successfully on Windows/macOS/Linux with `streamlit run app.py`.
-- **Streamlit Cloud:** Deployable via GitHub integration; app URL format: `https://<app-name>.streamlit.app`.
+The application is deployed on Streamlit Community Cloud via GitHub integration. App URL format: `https://<app-name>.streamlit.app`. Verification: open the deployed URL, log in with configured credentials, and confirm all pages (Home, Patient Profile, Upload Report, Risk Dashboard, History) load and function as expected.
 
 ---
 
@@ -727,7 +716,7 @@ Screenshots are in the `screenshots/` folder. Insert as needed:
 
 ## 9.1 OCR Dependency
 
-Tesseract OCR must be installed separately on the host system. It is not bundled with the Python packages. On Streamlit Cloud, Tesseract may not be available, so scanned PDFs will fail to extract text. Mitigation: Use text-based PDFs when possible; for scanned reports, local deployment is required.
+Tesseract OCR is not available on Streamlit Cloud. Only text-based PDF lab reports can be parsed; scanned PDFs will fail to extract text. Users should use text-based reports or copy values manually when necessary.
 
 ## 9.2 Single-User Model
 
@@ -826,7 +815,7 @@ Licence for hospitals and large clinics with strict data residency:
 
 # Chapter 12: Conclusion
 
-MedGuardian achieves its stated objectives as an AI-assisted early disease detection system. It successfully parses PDF lab reports—both text-based and scanned (with OCR fallback)—extracts key biomarkers using robust regex patterns, and computes clinically grounded risk scores for diabetes, hypertension, and cholesterol. The system stores all data locally in SQLite, addressing privacy concerns and enabling deployment in resource-constrained or air-gapped environments.
+MedGuardian achieves its stated objectives as an AI-assisted early disease detection system. It successfully parses text-based PDF lab reports, extracts key biomarkers using robust regex patterns, and computes clinically grounded risk scores for diabetes, hypertension, and cholesterol. The system is deployed on Streamlit Cloud and stores all data in SQLite on the deployment server, with no transmission of health data to external services.
 
 The project demonstrates the practical integration of document processing (pdfplumber, PyMuPDF, Tesseract), clinical reference ranges (ADA, JNC 8, ACC/AHA), and interactive data visualisation (Plotly) within a Streamlit web application. The modular architecture—separating authentication, PDF parsing, normalisation, risk models, and database access—ensures maintainability and extensibility.
 
@@ -836,7 +825,7 @@ Limitations include OCR dependency, single-user design, and limited biomarker co
 
 ### 12.1 Contributions
 
-This project contributes: (i) an integrated pipeline from PDF lab reports to early disease risk scores within a single application; (ii) support for both text-based and scanned PDFs via pdfplumber and Tesseract OCR; (iii) a clinical risk model aligned with ADA, JNC 8, and ACC/AHA guidelines; (iv) a local-first architecture that preserves data privacy; and (v) a reproducible sample dataset (15 PDF reports from 5 laboratories, varied age groups) for evaluation and demonstration.
+This project contributes: (i) an integrated pipeline from PDF lab reports to early disease risk scores within a single application; (ii) support for text-based PDFs via pdfplumber (scanned PDFs not supported on Streamlit Cloud); (iii) a clinical risk model aligned with ADA, JNC 8, and ACC/AHA guidelines; (iv) a cloud-deployed, privacy-preserving architecture with data stored only on the deployment server; and (v) a reproducible sample dataset (15 PDF reports from 5 laboratories, varied age groups) for evaluation and demonstration.
 
 ---
 
@@ -859,32 +848,16 @@ This project contributes: (i) an integrated pipeline from PDF lab reports to ear
 
 # Appendices
 
-## Appendix A: Installation Steps
+## Appendix A: Deployment (Streamlit Cloud)
 
-### Windows
+MedGuardian runs only on Streamlit Community Cloud. There is no local installation or run.
 
-```bash
-cd MedGuardian_Project
-python -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-copy .env.example .env
-# Edit .env: set ADMIN_PASSWORD_HASH
-# Install Tesseract: https://github.com/UB-Mannheim/tesseract/wiki
-streamlit run app.py
-```
-
-### macOS / Linux
-
-```bash
-cd MedGuardian_Project
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env
-# Edit .env; install Tesseract: brew install tesseract (macOS) or apt-get install tesseract-ocr (Ubuntu)
-streamlit run app.py
-```
+1. Push the project to a GitHub repository.
+2. Go to [share.streamlit.io](https://share.streamlit.io) and sign in with GitHub.
+3. Click **New app** (or **Create app**), select your repo and branch.
+4. Set **Main file path** to `MedGuardian_Project/app.py` if the repository root is the parent of `MedGuardian_Project`.
+5. In **Advanced settings** → **Secrets**, add `ADMIN_USERNAME` and `ADMIN_PASSWORD_HASH` (SHA-256 hash of your password).
+6. Deploy. The app will be available at `https://<your-app-name>.streamlit.app`. Default login is admin/admin123; change via secrets before any real use.
 
 ## Appendix B: Sample Biomarker Regex Patterns
 

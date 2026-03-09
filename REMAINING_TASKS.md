@@ -103,11 +103,10 @@ Or use the [Marp for VS Code](https://marketplace.visualstudio.com/items?itemNam
 
 ## 7. Verify Application
 
-- [ ] Run `streamlit run app.py` locally
+- [ ] Open the app on Streamlit Cloud (no local run)
 - [ ] Load sample data and test all pages
 - [ ] Upload a sample PDF (text-based) and verify parsing
 - [ ] Compute risk scores and view History
-- [ ] Test Streamlit Cloud deployment (optional)
 
 ---
 

@@ -28,9 +28,10 @@ except Exception as exc:
 require_auth()
 sidebar_user_info()
 
-# Offer to load sample data when database is empty
-from database.db_handler import get_all_users
-if not get_all_users():
+# Offer to load or reset sample data
+from database.db_handler import get_all_users, clear_all_data
+users = get_all_users()
+if not users:
     with st.expander("📥 Load sample demo data", expanded=True):
         st.caption(
             "No patients found. Load sample patients and health records for demo?"
@@ -46,6 +47,24 @@ if not get_all_users():
                 st.rerun()
             except Exception as e:
                 st.error(f"Failed to load sample data: {e}")
+else:
+    with st.expander("🔄 Reset & load fresh sample data", expanded=False):
+        st.caption(
+            "Clear all existing patients and data, then load the 15 sample profiles "
+            "(matching the sample PDF lab reports)."
+        )
+        if st.button("Reset database and load sample data", type="secondary"):
+            try:
+                clear_all_data()
+                from utils.data_loader import load_sample_data
+                result = load_sample_data(force=True)
+                st.success(
+                    f"Reset complete. Loaded {result.get('patients', 0)} patients and "
+                    f"{result.get('health_records', 0)} health records."
+                )
+                st.rerun()
+            except Exception as e:
+                st.error(f"Failed: {e}")
 
 # ---------------------------------------------------------------------------
 # Home page content
@@ -77,7 +96,7 @@ st.markdown(
     - 🟡 **21 – 50 %** — Moderate risk
     - 🔴 **51 – 100 %** — High risk
 
-    All data is stored locally in a SQLite database on your machine.
-    No data is sent to any external server.
+    Data is stored in a SQLite database on the deployment server.
+    No data is sent to any external service.
     """
 )

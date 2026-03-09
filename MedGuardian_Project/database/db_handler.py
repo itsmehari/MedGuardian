@@ -165,6 +165,17 @@ def delete_user(user_id: int) -> None:
         conn.close()
 
 
+def clear_all_data() -> None:
+    """Delete all users and related data (health records, risk scores, uploaded reports)."""
+    conn = get_connection()
+    try:
+        conn.execute("DELETE FROM users")
+        conn.commit()
+        logger.info("Database cleared (all users and related data removed)")
+    finally:
+        conn.close()
+
+
 # ---------------------------------------------------------------------------
 # Health Records
 # ---------------------------------------------------------------------------

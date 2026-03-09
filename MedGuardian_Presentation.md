@@ -55,7 +55,7 @@ style: |
 - Support both text-based and scanned PDFs (OCR)
 - Compute standardised risk scores for diabetes, BP, cholesterol
 - Track trends over time
-- Store data locally (no cloud dependency)
+- Data stored in SQLite on deployment server (no third-party analytics)
 
 ---
 
@@ -114,7 +114,7 @@ style: |
 # 7. Technology Stack
 
 - **Python 3.10+**, **Streamlit**
-- **SQLite** (local database)
+- **SQLite** (on deployment server)
 - **pdfplumber**, **PyMuPDF**, **pytesseract**, **Pillow**
 - **Plotly**, **pandas**, **numpy**
 
@@ -180,7 +180,7 @@ MedGuardian delivers an **AI-assisted early disease detection** system that:
 - Parses PDF lab reports (text + OCR)
 - Extracts biomarkers automatically
 - Detects early disease risk (diabetes, hypertension, cholesterol)
-- Stores data locally in SQLite
+- Stores data in SQLite on deployment server
 - Provides gauge charts and trend visualisation
 - Supports 15 sample reports from 5 laboratories
 

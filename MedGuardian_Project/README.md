@@ -9,110 +9,33 @@ for diabetes, hypertension, and high cholesterol.
 
 ## Features
 
-- Upload PDF lab reports — text-based or scanned (via Tesseract OCR)
+- Upload PDF lab reports (text-based; scanned PDFs not supported on Streamlit Cloud)
 - Automatic extraction of glucose, HbA1c, BMI, blood pressure, and cholesterol
 - Diabetes risk scoring using a weighted clinical formula
 - Blood pressure classification (JNC 8 / ACC-AHA 2017)
 - Cholesterol risk assessment (ACC/AHA 2018)
 - Patient profile management (create, edit, delete)
 - Historical trend charts with Plotly
-- All data stored locally in SQLite — nothing leaves your machine
+- Data stored in SQLite (on Streamlit Cloud; no data sent to third parties)
 
 ---
 
-## Prerequisites
-
-### 1. Python 3.10+
-
-```bash
-python --version
-```
-
-### 2. Tesseract OCR binary (required for scanned PDFs)
-
-MedGuardian uses `pytesseract`, which is a Python wrapper around the
-Tesseract OCR engine. You must install the engine separately.
-
-**Windows**
-
-1. Download the installer from the [Tesseract at UB Mannheim](https://github.com/UB-Mannheim/tesseract/wiki) page.
-2. Run the installer (default path: `C:\Program Files\Tesseract-OCR\`).
-3. Add the install directory to your `PATH`, **or** set the path explicitly
-   in your `.env` file if needed.
-
-**macOS**
-
-```bash
-brew install tesseract
-```
-
-**Ubuntu / Debian**
-
-```bash
-sudo apt-get install tesseract-ocr
-```
-
----
-
-## Installation
-
-```bash
-# 1. Clone or download the project
-cd MedGuardian_Project
-
-# 2. Create and activate a virtual environment (recommended)
-python -m venv venv
-# Windows
-venv\Scripts\activate
-# macOS / Linux
-source venv/bin/activate
-
-# 3. Install dependencies
-pip install -r requirements.txt
-
-# 4. Copy the example environment file and edit it
-copy .env.example .env      # Windows
-cp .env.example .env        # macOS / Linux
-```
-
-Edit `.env` to set your credentials:
-
-```
-ADMIN_USERNAME=admin
-# Generate a new hash: python -c "import hashlib; print(hashlib.sha256(b'YourPassword').hexdigest())"
-ADMIN_PASSWORD_HASH=<your_hash_here>
-```
-
----
-
-## Running the App
-
-```bash
-streamlit run app.py
-```
-
-The app will open at `http://localhost:8501`.
-
-Default login: **admin / admin123**  
-**Change this before any real deployment.**
-
-### Load Sample Demo Data
-
-If the database is empty, an expander on the Home page offers **Load sample data**. Click it to seed sample patients and health records for demo/testing.
-
----
-
-## Deploying to Streamlit Cloud
+## Deployment (Streamlit Cloud)
 
 1. Push the project to a GitHub repository.
 2. Go to [share.streamlit.io](https://share.streamlit.io) and sign in with GitHub.
-3. Click **New app**, select your repo and branch.
-4. Set **Main file path** to `app.py` (ensure the app root is `MedGuardian_Project` or adjust the working directory).
-5. In **Advanced settings**, add secrets:
+3. Click **New app** (or **Create app**), select your repo and branch.
+4. Set **Main file path** to `MedGuardian_Project/app.py` (if the repo root is the parent of `MedGuardian_Project`).
+5. In **Advanced settings** → **Secrets**, add:
    - `ADMIN_USERNAME`: your admin username
    - `ADMIN_PASSWORD_HASH`: SHA-256 hash of your password (see "Changing the Admin Password" below)
-6. Deploy. The app will create `medguardian.db` in the container (ephemeral — data resets on redeploy).
-7. **Note:** Tesseract OCR may not be available on Streamlit Cloud; scanned PDFs may fail. Text-based PDFs will work.
+6. Deploy. Your app will be available at `https://<your-app-name>.streamlit.app`.
+7. Default login: **admin / admin123** — change via secrets before going live.
+8. **Note:** Tesseract OCR is not available on Streamlit Cloud; only text-based PDFs are supported. The database is ephemeral (resets on redeploy).
+
+### Load Sample Demo Data
+
+If the database is empty, an expander on the Home page offers **Load sample data**. Click it to seed sample patients and health records.
 
 ---
 
