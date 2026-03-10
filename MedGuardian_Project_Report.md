@@ -344,7 +344,7 @@ MedGuardian follows a three-tier architecture:
 
 The presentation layer is implemented using Streamlit. It comprises:
 
-- **Home Page (app.py):** Entry point; displays overview, step-by-step guidance, and sample data loader when the database is empty.
+- **Home Page (app.py):** Entry point; displays overview, step-by-step guidance. When the database is empty, an expander offers "Load sample demo data"; when data exists, "Reset & load fresh sample data" allows reloading the 15 sample profiles.
 - **Patient Profile (1_Patient_Profile.py):** Create new patients and manage existing ones (view, edit, delete).
 - **Upload Report (2_Upload_Report.py):** File upload, PDF processing, biomarker verification, and health record creation.
 - **Risk Dashboard (3_Risk_Dashboard.py):** Patient and record selection, risk computation, gauge charts, and score persistence.
@@ -491,10 +491,12 @@ This module manages patient records with full CRUD operations.
 2. File uploader accepts PDFs.
 3. On upload: `extract_text_from_pdf()` is called. If text is empty, an error is shown (OCR may be unavailable).
 4. Raw text is shown in an expander for debugging.
-5. `insert_uploaded_report()` creates a pending report record.
+5. `insert_uploaded_report()` creates a report record with status **pending**.
 6. `parse_biomarkers()` extracts values using regex. Each biomarker is displayed in a number input for verification/correction.
 7. Test date is selected (default: today).
-8. On save: `insert_health_record()` stores the record; `update_report_status()` marks the report as processed and links it to the record. `current_record_id` is set for the Risk Dashboard.
+8. On save: `insert_health_record()` stores the record; `update_report_status()` sets status to **processed** and links the report to the record. `current_record_id` is set for the Risk Dashboard.
+
+**Report status lifecycle:** **pending** (uploaded, not yet saved), **processed** (health record saved successfully), **failed** (save attempt failed). Users must click "Save Health Record" to move from pending to processed; otherwise the report remains pending and is visible in History → Uploaded Reports.
 
 **Error handling:** If save fails, report status is set to failed. User sees an error message.
 
@@ -621,7 +623,7 @@ MedGuardian is intended to run on Streamlit Community Cloud only; local hosting 
 | gender | string | Male, Female, Other, Prefer not to say |
 | email | string | Optional; must be unique if provided |
 
-Five sample patients are included for demo and testing.
+Fifteen sample patients are included for demo and testing. Patient profiles are aligned with the 15 sample PDF lab reports: names, ages, and genders match the report metadata (e.g., Anita Reddy age 26, Karthik Pillai age 24) across low, moderate, and high risk scenarios.
 
 ## 7.2 Sample Health Records (sample_health_records.csv)
 
@@ -636,7 +638,7 @@ Five sample patients are included for demo and testing.
 | diastolic_bp | float | Diastolic BP (mmHg); 0 = not recorded |
 | cholesterol | float | Total cholesterol (mg/dL); 0 = not recorded |
 
-Eight sample records span multiple patients with varied biomarker values for low, moderate, and high risk scenarios.
+Fifteen sample records—one per patient—span varied biomarker values for low (5), moderate (5), and high (5) risk scenarios.
 
 ## 7.3 Sample PDF Lab Reports (data/sample_reports/)
 
@@ -651,13 +653,13 @@ Report filenames follow the pattern `lab_{labcode}_{patient}_{age}y_{risk}_{seq}
 ## 7.4 Data Loader Utility (utils/data_loader.py)
 
 The `load_sample_data(force=False)` function:
-- Reads `sample_patients.csv` and inserts into `users`
+- Reads `sample_patients.csv` and inserts 15 patients into `users`
 - Maps CSV user_id (1-based) to database user_id
-- Reads `sample_health_records.csv` and inserts into `health_records`
+- Reads `sample_health_records.csv` and inserts 15 health records into `health_records`
 - By default, skips loading if the database already contains patients
 - `force=True` loads sample data even when existing data is present
 
-Invoked from the Home page when the database is empty, or run via `python -m utils.data_loader`.
+Invoked from the Home page: when the database is empty, an expander offers **Load sample demo data**; when the database has data, a **Reset & load fresh sample data** expander allows clearing all data and reloading the 15 sample profiles. Can also be run via `python -m utils.data_loader`.
 
 ## 7.5 Dataset Format Documentation
 
@@ -694,7 +696,7 @@ Screenshots are in the `screenshots/` folder. Insert as needed:
 | TC7 | Compute diabetes risk with glucose, HbA1c, BMI | Score 0–100%, gauge displayed | ✓ Pass |
 | TC8 | Compute BP and cholesterol risk | Scores displayed, saved to DB | ✓ Pass |
 | TC9 | View risk score trends over time | Line chart with multiple conditions | ✓ Pass |
-| TC10 | Load sample data when DB empty | 5 patients, 8 health records loaded | ✓ Pass |
+| TC10 | Load sample data when DB empty | 15 patients, 15 health records loaded | ✓ Pass |
 | TC11 | Edit patient and save | Record updated | ✓ Pass |
 | TC12 | Delete patient with confirmation | Patient and related records deleted | ✓ Pass |
 
@@ -736,7 +738,7 @@ There is no integration with Electronic Health Records (EHR), Laboratory Informa
 
 ## 9.6 Ephemeral Cloud Data
 
-On Streamlit Cloud, the SQLite database is ephemeral; data is lost when the app restarts or is redeployed. Persistent storage would require external database services (e.g., PostgreSQL, Supabase).
+On Streamlit Cloud, the SQLite database is ephemeral; data is lost when the app restarts or is redeployed. Users must click "Load sample demo data" on the Home page after each cold start to populate the 15 sample patients and health records. Persistent storage would require external database services (e.g., PostgreSQL, Supabase).
 
 ---
 
@@ -819,7 +821,7 @@ MedGuardian achieves its stated objectives as an AI-assisted early disease detec
 
 The project demonstrates the practical integration of document processing (pdfplumber, PyMuPDF, Tesseract), clinical reference ranges (ADA, JNC 8, ACC/AHA), and interactive data visualisation (Plotly) within a Streamlit web application. The modular architecture—separating authentication, PDF parsing, normalisation, risk models, and database access—ensures maintainability and extensibility.
 
-Sample datasets (CSV patients, health records, and PDF lab reports from multiple laboratories and age groups) and a data loader utility support demonstration and testing without manual data entry. Functional testing confirms that core workflows—login, patient management, PDF upload, biomarker parsing, risk computation, and trend visualisation—perform as intended.
+Sample datasets (15 CSV patients, 15 health records, and 15 PDF lab reports from five laboratories and age groups) and a data loader utility support demonstration and testing without manual data entry. Functional testing confirms that core workflows—login, patient management, PDF upload, biomarker parsing, risk computation, and trend visualisation—perform as intended.
 
 Limitations include OCR dependency, single-user design, and limited biomarker coverage. Future work can address these through extended parsing, multi-user support, and integration with laboratory and health record systems. MedGuardian provides a solid foundation for lightweight, privacy-preserving health analytics suitable for small clinics and individual use.
 

@@ -122,12 +122,12 @@ style: |
 
 # 8. Datasets & Sample Reports
 
-- **sample_patients.csv** — 5 demo patients
-- **sample_health_records.csv** — 8 health records
+- **sample_patients.csv** — 15 demo patients (aligned with report metadata)
+- **sample_health_records.csv** — 15 health records (one per patient)
 - **15 PDF lab reports** from **5 laboratories** (Care Diagnostics, Apollo, Thyro Lab, Metropolitan, Sunrise)
 - **Age groups:** 24–70 yrs (young adult to senior)
-- **Risk profiles:** Low, Moderate, High
-- Data loader for empty DB demo
+- **Risk profiles:** 5 low, 5 moderate, 5 high
+- Load sample data from Home page when DB empty; Reset & reload when needed
 
 ---
 
@@ -137,10 +137,10 @@ style: |
 
 - Patient profile creation and CRUD
 - PDF upload → text extraction (pdfplumber / OCR)
-- Biomarker parsing and user verification
+- Biomarker parsing and user verification; Save Health Record → status: pending → processed
 - Risk dashboard with gauge charts
-- History: risk trends, biomarker trends, uploaded reports
-- Sample data loader for empty DB
+- History: risk trends, biomarker trends, uploaded reports (status: processed / pending / failed)
+- Sample data loader (15 patients, 15 records) for empty DB
 
 ---
 
@@ -160,7 +160,7 @@ Push to GitHub → share.streamlit.io → Create app → Select repo, main file 
 - Single admin user; no multi-tenancy
 - Regex may not cover all lab report formats
 - No EHR/LIS integration
-- Ephemeral DB on Streamlit Cloud (data resets on redeploy)
+- Ephemeral DB on Streamlit Cloud; load sample data after each cold start
 
 ---
 

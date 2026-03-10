@@ -65,9 +65,54 @@ def logout() -> None:
 
 
 def sidebar_user_info() -> None:
-    """Render the logged-in username and a logout button in the sidebar."""
+    """Render the logged-in username, logout button, and help guide in the sidebar."""
     with st.sidebar:
         st.markdown(f"**Logged in as:** `{st.session_state.get('username', '')}`")
         if st.button("Logout", use_container_width=True):
             logout()
         st.divider()
+
+        # How to use — at bottom of sidebar
+        with st.expander("❓ How to use this app", expanded=False):
+            st.markdown(
+                """
+                ### Quick start
+                **First time?** Go to **Home** → expand "Load sample demo data" → click **Load sample data** to load 15 demo patients and records.
+
+                ---
+
+                ### Step 1: Patient Profile
+                - **➕ New Patient:** Fill name, age, gender, email (optional) → click **💾 Save Patient**
+                - **📋 Manage Existing:** Choose a patient from the dropdown → view/edit/delete. The selected patient is used on other pages.
+
+                ---
+
+                ### Step 2: Upload Report
+                1. **Select Patient** (or use the one from Patient Profile)
+                2. **Choose a PDF** lab report (text-based; scanned works only locally with OCR)
+                3. Review the parsed values, correct if needed, set **Test Date**
+                4. Click **💾 Save Health Record** — otherwise the report stays *pending*
+
+                ---
+
+                ### Step 3: Risk Dashboard
+                1. **Select Patient** (dropdown)
+                2. **Select Health Record** (the lab report you saved)
+                3. Set **Family history of diabetes** (Yes/No)
+                4. Click **Compute Risk Scores** — see gauge charts (Diabetes, BP, Cholesterol)
+                5. Scores are saved automatically
+
+                ---
+
+                ### Step 4: History
+                1. **Select Patient** (dropdown)
+                2. Choose tab:
+                   - **Risk Score Trends** — line chart over time
+                   - **Biomarker Trends** — pick a biomarker, see line chart
+                   - **Uploaded Reports** — list with status (processed / pending / failed)
+
+                ---
+
+                **Tip:** The patient you pick on one page is remembered for the next.
+                """
+            )
